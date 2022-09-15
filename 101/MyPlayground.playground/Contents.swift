@@ -118,6 +118,7 @@ class Monsters : TTXMonsters {
         return info
     }
     
+    
     func stats() -> String {
         let info = " монстр  = \(nameMonsters), HP = \(HPMonsters), Damege = \(damageMonsters), ability = \(abilityMonsters) "
         
