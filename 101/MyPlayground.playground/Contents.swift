@@ -112,6 +112,7 @@ class Monsters : TTXMonsters {
         self.abilityMonsters = abilityMonsters
     }
     
+    
     func infoFirstMonsters() -> String {
         let info = "Создался монстр = \(nameMonsters), HP = \(HPMonsters), Damege = \(damageMonsters), ability = \(abilityMonsters) "
         
