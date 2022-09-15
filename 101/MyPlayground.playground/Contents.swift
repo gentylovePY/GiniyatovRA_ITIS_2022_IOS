@@ -1,249 +1,268 @@
+
 import UIKit
+import Foundation
 
-// Int, String, Bool, Double, Float
-// Set, Dictionary, Array
-// class, struct, enum, protocol, tuple, extension
-
-/*
-var a: Double = 0
-let b = a
-
-print(a)
-print(b)
-a += 1
-print(a)
-print(b)
-
-var myString = "Hello, world"
-print(myString)
-
-myString += " again"
-print(myString)
-
-a += 0.5
-
-var mySet: Set = [1, 2, 3]
-print(type(of: mySet))
-
-func myPrintBad(_ value: any Numeric) {
-    print(value)
+protocol TTXPers {
+    var name : String { get }
+    var HP : Int { get set }
+    var MP : Int { get set }
+    var damage : Int { get }
+    var ability: Ability {get set}
+ 
 }
 
-func myPrint<T: Numeric>(_ value: T) {
-    print(value)
+protocol TTXMonsters {
+    var nameMonsters : String { get  }
+    var HPMonsters : Int { get set }
+    var damageMonsters : Int { get  }
 }
 
-myPrint(a)
-myPrint(1)
+enum Direction:CaseIterable {
+    case left
+    case right
+    case forward
+    case backward
+    case left_forward
+    case right_forward
+    case right_backward
+    case left_backward
+}
 
-class MyClass: Hashable {
-    init(name: String) {
+enum Ability:CaseIterable {
+    case fireball
+    case lightning
+    case health
+    case speed
+}
+
+enum AbilityMonsters:CaseIterable{
+    case bigFly
+    case rottenHand
+    case repulsivSmell
+}
+
+enum Artifacts: CaseIterable {
+    case potion
+    case gun
+    case boots
+    
+}
+
+class Pers : TTXPers {
+    
+    var name : String
+    var HP : Int
+    var MP : Int
+    var damage : Int
+    var ability: Ability
+    var direction : Direction? = nil
+    var artifact: Artifacts? = nil
+    
+    
+    init (name:String, HP:Int,MP:Int,damege:Int,ability:Ability){
         self.name = name
+        self.HP = HP
+        self.MP = MP
+        self.damage = damege
+        self.ability = ability
+        
     }
-    let name: String
-    static var name: String = "MyClass.default"
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(name)
-        print(Self.name)
+    
+  
+    func infoFirstPers() -> String {
+        let info = "Создался герой = \(name), HP = \(HP), MP = \(MP), Damege = \(damage), ability = \(ability)"
+        
+        return info
     }
-
-    static func == (lhs: MyClass, rhs: MyClass) -> Bool {
-        lhs.name == rhs.name
+    func stats() -> String {
+        let info = "герой = \(name), HP = \(HP), MP = \(MP), Damege = \(damage), ability = \(ability)"
+        
+        return info
     }
+    
+    func getNameFirstPers() -> String{
+        name
+    }
+    
+    func getHpFirstPers() -> Int {
+        HP
+    }
+    
+    func getMPFirstPers() -> Int {
+        MP
+    }
+    
+    func getDirection() -> Any {
+        direction as Any
+    }
+   
 }
 
-var myArray: [Any] = ["", 1, 1.0, MyClass(name: "Hello")]
-print(myArray)
-
-var mySet2: Set<MyClass>
-
-let myClass1 = MyClass(name: "123")
-print("myClass1.name: \(myClass1.name)")
-print("MyClass.name: \(MyClass.name)")
-
-var myDictionary: [String: String] = [
-    "Hello": "World",
-    "room": "1412"
-]
-
-myDictionary["floor"] = "14"
-print(myDictionary)
-myDictionary["Hello"] = nil
-print(myDictionary)
-
-// inout
-
-func foo(taking bar: Int) {
+class Monsters : TTXMonsters {
+    var nameMonsters: String
+    var HPMonsters: Int
+    var damageMonsters: Int
+    var direction : Direction? = nil
+    var abilityMonsters:AbilityMonsters
+    
+    init(nameMonsters:String, HPMonsters:Int,  damageMonsters:Int, abilityMonsters:AbilityMonsters){
+        self.nameMonsters = nameMonsters
+        self.HPMonsters = HPMonsters
+        self.damageMonsters = damageMonsters
+        self.abilityMonsters = abilityMonsters
+    }
+    
+    func infoFirstMonsters() -> String {
+        let info = "Создался монстр = \(nameMonsters), HP = \(HPMonsters), Damege = \(damageMonsters), ability = \(abilityMonsters) "
+        
+        return info
+    }
+    
+    func stats() -> String {
+        let info = " монстр  = \(nameMonsters), HP = \(HPMonsters), Damege = \(damageMonsters), ability = \(abilityMonsters) "
+        
+        return info
+    }
+    
+    func getNameMonsters() -> String{
+        nameMonsters
+    }
+    
+    func getHpMonsters() -> Int {
+        HPMonsters
+    }
+    
+    func getDirectionMonsters() -> Any{
+        direction as Any
+    }
+    
 }
 
-func foo() {
-}
 
-func foo(barBar: Int) -> Int {
-    print("Hello")
-    return barBar
-}
+class CreatePersAndMonsters{
+    let valuePers = Int.random(in: 2...4)
+    let valueMonsters = Int.random(in: 7...9)
+    var arrayPers: [Pers] = []
+    var arrayMonsters: [Monsters] = []
 
-func foo2(barBar: Int) -> Int {
-    barBar
-}
-
-func foo3() -> Int {
-    Int.random(in: 1...2)
-}
-
-func foo4(myString: inout String) {
-    myString += "Hello world"
-}
-
-func foo(myString: String) -> String {
-    myString + "Hello, world"
-}
-
-let myString2 = ""
-var myString3 = myString2
-foo4(myString: &myString3)
-print(myString2)
-print(foo(myString: ""))
-*/
-
-class Animal {
-    var numberOfLegs: Int { 4 }
-
-    func makeSound() {
-        if qrCode() < 500000 {
-            print("Yyyyyyiiiiiii")
+  func create()  {
+        for i in 0...valuePers-1 {
+           
+            let pers = Pers(name: "pers\(i)", HP: Int.random(in: 100...300), MP: Int.random(in: 20...30), damege: Int.random(in: 10...30) , ability: Ability.allCases.randomElement()!)
+            print(pers.infoFirstPers())
+            arrayPers.append(pers)
+            
         }
-    }
-
-    private func qrCode() -> Int {
-        Int.random(in: 0...999999)
-    }
-}
-
-protocol Humanoid {
-    var hasFur: Bool { get }
-    var age: Int { get set }
-}
-
-class Human: Animal, Humanoid {
-    let hasFur: Bool = false
-    var age: Int = 0
-
-    var name: String = ""
-    override var numberOfLegs: Int { 2 }
-
-    override func makeSound() {
-//        super.makeSound()
-
-        print("Привет, I don't have \(super.numberOfLegs) legs, I have \(numberOfLegs) legs")
-    }
-}
-
-let human1 = Human()
-// Cannot assign to property: 'hasFur' is a 'let' constant
-// human1.hasFur = true
-print(human1.hasFur)
-
-let humanoid1: Humanoid = human1
-humanoid1.hasFur
-
-human1.makeSound()
-
-protocol MakingSound {
-    func makeSound()
-}
-
-struct MyParentStruct {
-}
-
-// Inheritance from non-protocol type 'MyParentStruct
-// struct MyStruct: MyParentStruct {
-struct MyStruct {
-    var name: String
-
-    var nameTwice: String {
-        name + name
-    }
-
-    func name(nTimes: Int) -> String {
-        var name = ""
-        for _ in 0..<nTimes {
-            name += self.name
+      
+      print("")
+       
+        for i in 0...valueMonsters-1{
+            let monsters = Monsters(nameMonsters: "monsters\(i)", HPMonsters: Int.random(in: 130...180), damageMonsters: Int.random(in: 5...25), abilityMonsters: AbilityMonsters.allCases.randomElement()!)
+           
+            print(monsters.infoFirstMonsters())
+            arrayMonsters.append(monsters)
         }
-        return name
+    
     }
-
-    mutating func changeName(to newName: String) {
-        name = newName
-    }
+    
 }
 
-let myClass1 = Human()
-let myClass2 = myClass1
-myClass1.name = "Aqle"
-print(myClass2.name)
-var myStruct1 = MyStruct(name: "myStruct1")
-var myStruct2 = myStruct1
-myStruct1.name = "123"
-print(myStruct2.name)
-
-let myStruct3 = MyStruct(name: "123")
-print(myStruct3.name(nTimes: 3))
-var myStruct4 = MyStruct(name: "123")
-print(myStruct4.name)
-myStruct4.changeName(to: "234")
-print(myStruct4.name)
-
-var myTuple: (String, Int) = ("Amir", 123)
-var myTupleWithLabels: (name: String, age: Int) = ("Amir", 111)
-myTuple.0
-myTuple.1
-myTupleWithLabels.name
-myTupleWithLabels.age
-
-myTupleWithLabels = myTuple
-
-// Closures
-
-var printNameAndAge: (String, Int) -> Void
-printNameAndAge = {
-    print("\($0), age: \($1)")
+class Game{
+    
+    func go(){
+        
+        let create = CreatePersAndMonsters()
+        create.create()
+        var deadPers: [Pers] = []
+        var deadMMonsters : [Monsters] = []
+        
+    print("\nигра началась\n ")
+    while( create.arrayMonsters.count > 1 || create.arrayPers.count > 1){
+            
+        for i in  0...create.arrayPers.count-1{
+            let direction = Direction.allCases.randomElement()!
+            print( "Герой \(create.arrayPers[i].getNameFirstPers()) пошел \( direction)")
+            create.arrayPers[i].direction = direction
+            let veroyatnoct = Int.random(in: 1...100)
+            if(veroyatnoct <= 10){
+                let artifact = Artifacts.allCases.randomElement()!
+                create.arrayPers[i].artifact = artifact
+                print("Герой \(create.arrayPers[i].getNameFirstPers()) нашел \(artifact)!!!!")
+            }
+            
+        }
+            print("")
+        
+        for i in  0...create.arrayMonsters.count-1{
+            let direction = Direction.allCases.randomElement()!
+            print( " герой \(create.arrayMonsters[i].getNameMonsters()) пошел \( direction)")
+            create.arrayMonsters[i].direction = direction
+        }
+        
+            print("")
+            
+        for i in 0...create.arrayPers.count-2{
+           
+            if(create.arrayMonsters.count > 1 && create.arrayPers.count > 1){
+            for j in 0...create.arrayMonsters.count-2{
+        
+                if(create.arrayPers[i].direction == create.arrayMonsters[j].direction){
+                    
+              
+                    print("ПРОИЗОШЕЛ БОЙ МЕЖДУ  \(create.arrayPers[i].getNameFirstPers()) и \(create.arrayMonsters[j].getNameMonsters())")
+                    print("")
+                    
+                    if(  create.arrayPers[i].MP < 2) {
+                        print("У героя \(create.arrayPers[i].name) недостаточно MP, он провалил атаку\n")
+                        create.arrayPers[i].HP -= create.arrayMonsters[j].damageMonsters
+                        create.arrayPers[i].MP += (((create.arrayPers[i].MP) * (-1)) * 2)
+                        print("У героя \(create.arrayPers[i].name) пополнилась  MP, его МР = \(create.arrayPers[i].MP)\n")
+                        
+                    } else{
+                        create.arrayPers[i].HP -= create.arrayMonsters[j].damageMonsters
+                        create.arrayMonsters[j].HPMonsters -= create.arrayPers[i].damage
+                        create.arrayPers[i].MP -= create.arrayPers[i].HP / (create.arrayPers[i].MP)
+                    }
+                    
+                    print("статистика:  \(create.arrayPers[i].stats()) и \n \(create.arrayMonsters[j].stats())\n")
+                    
+                    
+                    if(create.arrayPers[i].HP <= 0){
+                        print("---умер--- \(create.arrayPers[i].name)\n")
+                        create.arrayPers.remove(at: i)
+                        deadPers.append(create.arrayPers[i])
+                      
+                    }
+                    if(create.arrayMonsters[j].HPMonsters <= 0){
+                        print("---умер--- \(create.arrayMonsters[j].nameMonsters)\n")
+                        create.arrayMonsters.remove(at: j)
+                        deadMMonsters.append(create.arrayMonsters[i])
+                       
+                    }
+                }
+            }
+        }
 }
-
-printNameAndAge = { name, age in
-    var printedTimes: Int = 0
-    func updatePrintedTimes() {
-        printedTimes += 1
+            if(create.arrayPers.count <= 1){
+                print("Последний персонаж сбежал с поля битвы, один в поле не воин")
+                print("Игра закончилась")
+                
+                break
+            }
+            if(create.arrayMonsters.count <= 1){
+                print("Последний монстр сбежал с поля битвы, один в поле не воин")
+                print("Игра закончилась")
+                
+                break
+            }
     }
-    print("\(name), age: \(age)")
-    updatePrintedTimes()
-}
 
-class MyPrinter {
-    var printer: (String, Int) -> Void = { _, _ in }
+  }
 
-    func print(string: String, int: Int) {
-        printer(string, int)
-    }
-}
+ }
 
-printNameAndAge("Hello", 1)
-printNameAndAge("Hello", 1)
-let myPrinter = MyPrinter()
-myPrinter.printer = printNameAndAge
-printNameAndAge = myPrinter.printer
-printNameAndAge("Hello", 1)
-printNameAndAge("Hello", 1)
-myPrinter.print(string: "A", int: 123)
-myPrinter.print(string: "A", int: 123)
-myPrinter.print(string: "A", int: 123)
 
-let myView = UIView()
-extension UIView: MakingSound {
-    func makeSound() {
-        print("UIView goes brrrrr")
-    }
-}
-myView.makeSound()
+var game = Game()
+game.go()
+
+
